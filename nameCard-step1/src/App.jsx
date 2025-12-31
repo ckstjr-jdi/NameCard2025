@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router';
 import styled from 'styled-components';
+import Login from './components/pages/Login';
+import Maker from './components/pages/Maker';
 
 const AppDiv = styled.div`
     width: 100%;
@@ -15,6 +17,7 @@ const App = () => {
     <>
       <AppDiv>
         <Routes>
+          {/* 리액트 컴포넌트는 일급함수이다 */}
           <Route path="/" element={<Login />}/>
           <Route path="/maker" element={<Maker />}/>
         </Routes>
@@ -24,3 +27,11 @@ const App = () => {
 }
 
 export default App;
+/*
+일급 함수(Frist-class function)
+- 함수를 값처럼 다룰 수 있다. 
+- 변수에 담을 수 있다. 
+- 함수의 파라미터로 전달 할 수 있다. 
+- 함수에서 함수를 반환할 수 있다. 
+- 자료구조(배열/객체)에 넣을 수 있다. 
+*/
