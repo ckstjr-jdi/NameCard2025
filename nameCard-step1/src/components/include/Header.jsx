@@ -26,10 +26,11 @@ const H1Title = styled.h1`
     margin: auto;
     color: #DBA39A; 
 `
-const Header = () => {
+const Header = ({handleLogout}) => {
   return (
     <>
       <HeaderDiv>
+        {handleLogout && <BtnLogout onClick={handleLogout}>로그아웃</BtnLogout>}
         <Img src="/images/logo.png" alt="logo" /> 
         <div className={{margin: 'auto'}}>
           <H1Title>Name Card</H1Title>  

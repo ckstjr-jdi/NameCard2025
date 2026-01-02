@@ -18,7 +18,7 @@ const App = () => {
       <AppDiv>
         <Routes>
           {/* 리액트 컴포넌트는 일급함수이다 */}
-          <Route path="/" element={<Login />}/>
+          <Route path="/" element={<Login/>}/>
           <Route path="/maker" element={<Maker />}/>
         </Routes>
       </AppDiv>
