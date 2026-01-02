@@ -3,6 +3,9 @@ import Header from "../include/Header"
 import Footer from "../include/Footer"
 import { useNavigate } from "react-router"
 import { Logout } from "../../service/authApi"
+import CardEditor from "./CardEditor"
+import Preview from "./Preview"
+import { useState } from "react"
 
 
 const MarkerDiv = styled.div`
@@ -20,6 +23,22 @@ const ContainerDiv = styled.div`
 `
 
 const Maker = () => {
+
+  const [cards, setCards] = useState({
+    '1':{
+      id: '1',
+      theme: 'dark',
+      fileName: 'lee',
+      fileURL: 'https://res.cloudinary.com/dabcqtmbm/image/upload/v1707156245/lmbxljzqmcylnyngwafk.jpg',
+    },
+    '2':{
+      id: '2',
+      theme: 'light',
+      fileName: 'kim',
+      fileURL: null,
+    },
+  });   
+
   const navigate = useNavigate()
   const handleLogout = async() => {
     await Logout()
@@ -31,8 +50,8 @@ const Maker = () => {
     <MarkerDiv>
       <Header handleLogout={handleLogout} />
       <ContainerDiv>
-        <p>CardEditor</p>
-        <p>Preview</p>
+        <CardEditor />
+        <Preview cards={cards}/>
       </ContainerDiv>
       <Footer /> 
     </MarkerDiv>

@@ -10,6 +10,7 @@ export const githubProvider = new GithubAuthProvider();
 // 3000번 서버에서 구글 서버에 요청하기
 export const LoginWithGoogle = async() => {
   const result = await signInWithPopup(auth, googleProvider)
+  console.log(result)
   return result.user
 }
 
