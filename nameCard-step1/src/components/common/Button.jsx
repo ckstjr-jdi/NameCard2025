@@ -15,7 +15,7 @@ const MyButton = styled.button`
     opacity: 0.8;
   }  
 `
-const Button = (name, onClick) => {
+const Button = ({name, onClick}) => {
   return (
     <MyButton onClick={onClick}>
       {name}

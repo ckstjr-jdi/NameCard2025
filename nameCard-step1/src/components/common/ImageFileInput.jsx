@@ -43,7 +43,7 @@ const ImageFileInput = ({name}) => {
           className={`${styles.button} ${name ? styles.ping : styles.grey}`}
           onClick={onButtonClick}
         >
-          {name || 'No file'}
+          {name || 'No file'} {/* 참:name, 거짓:'No file' */}
         </button>
       )}
       
