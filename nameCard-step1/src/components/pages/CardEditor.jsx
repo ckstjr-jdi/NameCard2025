@@ -1,5 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
+import CardAddForm from './CardAddForm'
+import CardEditorForm from './CardEditorForm'
 
 const EditorDiv = styled.div`
 	flex-basis: 50%;
@@ -14,10 +15,15 @@ const TitleH1 = styled.h1`
 	color: #594545;
 `
 
-const CardEditor = () => {
+const CardEditor = ({FileInput, cards}) => {
   return (
     <EditorDiv>
-      <TitleH1>명함 에디터</TitleH1>
+      <TitleH1>Card Editor</TitleH1>
+			{Object.keys(cards).map(key => (
+				<CardEditorForm FileInput={FileInput} key={key} card={cards[key]}/>
+			))}
+			{/* 새로 작성하는 카드이므로 cards넘길 필요 없음 */}
+			<CardAddForm FileInput={FileInput}/>
     </EditorDiv>
 
   )
