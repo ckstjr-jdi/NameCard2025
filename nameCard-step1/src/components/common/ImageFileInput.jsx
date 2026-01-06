@@ -31,6 +31,7 @@ const ImageFileInput = ({name, imageUploader}) => {
     console.log(event.target.files[0])
     const uploaded = await imageUploader.upload(event.target.files[0])
     console.log(uploaded)
+    setLoading(false)
   }//end of file
   // button의 디폴트 type은 submit이다.
   // submit이슈
