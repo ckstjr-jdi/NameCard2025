@@ -71,7 +71,18 @@ const CardAddForm = ({FileInput}) => {
   const titleRef = useRef();
   const emailRef = useRef();
   const messageRef = useRef();
+  //폼 전송 중에서 이미지 업로드 부분만 클라우드 서비스를 활용하여 처리함.
+  //업로드가 성공한 후에 업로드 된 fileName과 fileURL(로컬pc)이 아닌
+  //클라우디너리 업로드 된 후에 결정된 fileName과 fileURL을 수정해야함(후처리)
   const [file, setFile] = useState({ fileName: null, fileURL: null })
+  const onFileChange = (file) => {
+    console.log(file)//호출이 안되고 있어요..... 상위컴포넌트
+    setFile({
+      fileName: file.name,
+      fileURL: file.url
+    })
+  }
+
   const onSubmit = (event) => {
     event.preventDefault() //화면이 자동으로 새로고침일어남 -> 입력값을 기억못함
     const card = {
@@ -86,7 +97,12 @@ const CardAddForm = ({FileInput}) => {
       fileURL: file.fileURL || ''
     }
     formRef.current.reset()//사용자가 입력해서 제출하면 폼이 다시 리셋되도록 함
+    //NoSQL에 전달하기 전에 card리터럴에 초기화 된 값을 확인하기
+    console.log(card)
+    //card에 필요한 정보를 받고 나면 file상태를 초기화 하기
+    setFile({fileName: null, fileURL: null})
     //TODO - NoSQL(firestore)과 연동하여 저장하기 - feature/step3
+    //수정, 입력, 삭제 처리는 Maker쪽에서 하기
   }
   return (
 		<Form ref={formRef} className={styles.form}>
@@ -101,7 +117,7 @@ const CardAddForm = ({FileInput}) => {
       <Input ref={emailRef} name="email" placeholder='Email' />
       <TextArea ref={messageRef} name='message' placeholder='Message' />
 			<FileInputDiv>
-        <FileInput />
+        <FileInput name={file.fileName} onFileChange={onFileChange}/>
       </FileInputDiv>
       <Button name="Add" onClick={onSubmit}/>
 		</Form>

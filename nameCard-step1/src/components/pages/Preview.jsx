@@ -23,6 +23,7 @@ const CardsUl = styled.ul`
 
 
 const Preview = ({cards}) => {
+  console.log(cards)
   return (
     <PreviewDiv>
         <TitleH1>Card Preview</TitleH1>
