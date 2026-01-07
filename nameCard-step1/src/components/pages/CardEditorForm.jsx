@@ -62,7 +62,7 @@ const FileInputDiv = styled.div`
 
 const CardEditorForm = ({FileInput, card}) => {
   const {name, theme, fileName, fileURL} = card
-  
+
   const formRef = useRef();
   const nameRef = useRef();
   const companyRef = useRef();
@@ -78,6 +78,7 @@ const CardEditorForm = ({FileInput, card}) => {
     console.log('onFileChange')
   }
   const handleSubmit = () => {
+    console.log('handleSubmit')
     // 삭제 처리 - 기능 - 함수 - 어디에 선언할 것인가?
     // 더미 데이터 적용해서 화면을 출력해 보기 -> 위에서 아래로 내린다.
     // 아래에서 위로 올려서 처리한다. - 이벤트 처리

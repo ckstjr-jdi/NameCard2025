@@ -23,7 +23,8 @@ const ContainerDiv = styled.div`
 `
 const Maker = ({FileInput}) => {
 
-  const [cards, setCards] = useState({});   
+  const [cards, setCards] = useState({
+  });   
 
   const navigate = useNavigate()
   const handleLogout = async() => {

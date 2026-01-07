@@ -40,12 +40,12 @@ const Card = ({card}) => {
   return (
     <CardLi className={`${styles.card} ${getStyles(theme)}`}>
       <AvatarImg src={url} alt="profile photo"/>
-      <div style={{widht: '100%'}}>
-        <h1 className={styles.name}>{"홍길동"}</h1>
-        <p className={styles.company}>{"코스모스"}</p>
-        <p className={styles.title}>{"엔지니어"}</p>
-        <p className={styles.email}>{"hong@naver.com"}</p>
-        <p className={styles.message}>{"메시지 테스트"}</p>
+      <div style={{width: '100%'}}>
+        <h1 className={styles.name}>{name}</h1>
+        <p className={styles.company}>{company}</p>
+        <p className={styles.title}>{title}</p>
+        <p className={styles.email}>{email}</p>
+        <p className={styles.message}>{message}</p>
       </div>
     </CardLi>
   )
