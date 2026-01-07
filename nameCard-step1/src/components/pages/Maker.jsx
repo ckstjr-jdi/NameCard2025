@@ -2,10 +2,10 @@ import styled from "styled-components"
 import Header from "../include/Header"
 import Footer from "../include/Footer"
 import { useNavigate } from "react-router"
-import { Logout } from "../../service/authApi"
+import { Logout, subscribeAuthChange } from "../../service/authApi"
 import CardEditor from "./CardEditor"
 import Preview from "./Preview"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 const MarkerDiv = styled.div`
@@ -21,10 +21,27 @@ const ContainerDiv = styled.div`
   flex: 1; /* 중간에 여백을 가득채우도록 1을 준다 */
   min-height: 0;
 `
-const Maker = ({FileInput}) => {
+const Maker = ({FileInput, cardLogic}) => {
 
-  const [cards, setCards] = useState({
-  });   
+  const [cards, setCards] = useState({});   
+  const [userId, setUserId] = useState();
+  // 구글 로그인을 활용한 인증이므로 인증에 대한 내부 처리는 구글이 알고 있다.
+  // 로그인이 풀렸는지 아직 유지되고 있는지 체크
+  useEffect(() => {
+    const unsubscribe = subscribeAuthChange((user) => {
+      if(user){
+        // 여기까지 진입이되면 로그인 상태라는 의미
+        setUserId(user.uid)
+      }
+      //로그아웃 상태
+      else{
+        setUserId(null)
+      }
+    })
+    //사용자 정의 함수
+    //컴포넌트가 언마운트 구독 해제(후처리)
+    return () => unsubscribe()
+  },[])
 
   const navigate = useNavigate()
   const handleLogout = async() => {
@@ -45,6 +62,16 @@ const Maker = ({FileInput}) => {
   const insertOrUpdateCard = card => {
     console.log('insertOrUpdateCard 호출')
     console.log(card)
+    setCards(cards => {
+      //추가 되기 전에 카드 정보 출력
+      console.log(cards)
+      //어차피 id가 오브젝트안에 없다면 새로운 것이 추가됨.
+      const updated = {...cards}
+      updated[card.id] = card
+      return updated
+    })
+    console.log(`${userId}, ${card}`)
+    cardLogic.saveCard(userId, card)
   }//end of insertOrUpdateCard
 
   const deleteCard = card => {
@@ -52,7 +79,13 @@ const Maker = ({FileInput}) => {
      console.log(card)
      // delete from schedle where id = 2
      console.log(`삭제 카드 card.id ${card.id}`)
-  }
+     setCards((cards) => {
+      const updated = {...cards}
+      delete updated[card.id]
+      return updated
+     })
+     cardLogic.removeCard(userId, card)
+  }//end of deleteCard
   return (
     <MarkerDiv>
       <Header handleLogout={handleLogout} />
