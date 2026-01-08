@@ -25,6 +25,30 @@ const Maker = ({FileInput, cardLogic}) => {
 
   const [cards, setCards] = useState({});   
   const [userId, setUserId] = useState();
+
+  /*
+  useEffect는 업무별로 여러개를 만들 수 있다. 
+  우리가 원하는 건 Maker가 마운트 되었을 때 또는 사용자의 아이디가
+  변경되었을 때 계속 동기화를 해야한다.
+  useEffetct의 좋은 점은 해당하는 로직별로 여러개를 만들 수 있다.
+  기존에 useEffect는 로그인에 고나련된 거니까 그대로 두고 하나 더 만듦
+  조건
+  만약에 사용자의 아이디가 없다면 즉 로그인 되지 않았다면 이것을 하지 않고
+  사용자의 아이디가 있을 대만 우리가 정의한 CardLogic에 있는 syncCards 호출하기
+  */
+
+  useEffect(() => {//Realtime Databse와 동기화하는 useEffect - 비동기
+    if(!userId){
+      return //useEffect()탈출
+    }
+      const dataSync = cardLogic.syncCards(userId, cards => {
+        setCards(cards) //useState에 파라미터로 받아온 정보를 담기 - 상태가 변함-> 다시 그림
+      })
+      //후처리 - dataSync함수를 리턴하면 cardService.js의 syncCards함수의
+      //off()함수가 호출되어 종료처리됨
+      return () => dataSync()
+  },[userId, cardLogic])//userId가 변경되거나 cardLogic이 변경되면 안에 내용이 실행됨
+  
   // 구글 로그인을 활용한 인증이므로 인증에 대한 내부 처리는 구글이 알고 있다.
   // 로그인이 풀렸는지 아직 유지되고 있는지 체크
   useEffect(() => {
@@ -77,15 +101,16 @@ const Maker = ({FileInput, cardLogic}) => {
   //deleteCard는 CardEditorForm에서 호출하는 데
   //삭제 정보는 상위 컴포넌트인 Maker까지 전달 되어야 함.
   const deleteCard = card => {
+    //CardEditorForm.jsx에서 누른 삭제 버튼의  id를 가져와야 함.
     console.log('delteCard 호출')
-     console.log(card)
-     // delete from schedle where id = 2
-     console.log(`삭제 카드 card.id ${card.id}`)
-     setCards((cards) => {
+    console.log(card)
+    // delete from schedle where id = 2
+    console.log(`삭제 카드 card.id ${card.id}`)
+    setCards((cards) => {
       const updated = {...cards}
       delete updated[card.id]
       return updated
-     })
+    })
      cardLogic.removeCard(userId, card)
   }//end of deleteCard
   return (
